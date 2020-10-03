@@ -1,4 +1,6 @@
-import React, { createContext, useReducer, useMemo } from "react";
+import React, { createContext, useReducer, useMemo, useEffect } from "react";
+import axios from "axios";
+import jwt from "jsonwebtoken";
 import { SAVE_TOKEN, SAVE_USER, LOG_OUT, LOADING } from "./constants";
 import {
   UserData,
@@ -6,6 +8,9 @@ import {
   IUserContext,
   UserReducerAction,
 } from "./types";
+
+const localapi = process.env.REACT_APP_ROOT_API;
+const usersUri = `${localapi}users/id/`;
 
 const initialUserState: UserData = {
   _id: "",
@@ -52,6 +57,44 @@ export const UserContext = createContext<IUserContext>(initialContextState);
 
 export const UserContextProvider: React.FC = ({ children }) => {
   const [store, dispatch] = useReducer(reducer, initialState);
+
+  const { token } = store;
+
+  // Revisar almacenamiento local buscando token
+  // Si lo encuentra, lo guarda
+  // Si no lo encuentra, desactiva el estado de cargando
+  useEffect(() => {
+    const localToken = localStorage.getItem("token");
+    console.log(localToken);
+    if (localToken) {
+      dispatch({ type: SAVE_TOKEN, payload: localToken });
+    } else {
+      dispatch({ type: LOADING, payload: false });
+    }
+  }, [dispatch]);
+
+  // Si hay cambios en el estado del token, se descodifica y se pide al server info del usuario.
+  // Guarda el token en el almacenamiento local, y los datos del usuario en UserContext
+  // Desactiva spinner si ya terminó el request o no pudo decodificar el token
+  // decodedIdentity.sub es el ID del usuario
+  useEffect(() => {
+    dispatch({ type: LOADING, payload: true });
+    const decodedIdentity = jwt.decode(token);
+    if (decodedIdentity) {
+      localStorage.setItem("token", token);
+      const userDataUri = usersUri + decodedIdentity.sub;
+      axios
+        .get(userDataUri, { headers: { Authorization: `Bearer ${token}` } })
+        .then((res: any) => {
+          console.log(res);
+          dispatch({ type: SAVE_USER, payload: res.data });
+        })
+        .catch((err) => console.log(err))
+        .finally(() => dispatch({ type: LOADING, payload: false }));
+    } else {
+      dispatch({ type: LOADING, payload: false });
+    }
+  }, [token, dispatch]);
   const userContextValue = useMemo(() => {
     return { store, dispatch };
   }, [store, dispatch]);
