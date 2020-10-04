@@ -41,8 +41,6 @@ const reducer = (state: IUserStoreState, action: UserReducerAction) => {
     case SAVE_TOKEN:
       return { ...state, token: action.payload };
     case SAVE_USER:
-      /* console.log(action.payload);
-      console.log({ ...state, user: action.payload }); */
       return { ...state, user: action.payload };
     case LOG_OUT:
       // borra el token del almacenamiento y retorna a defaults el estado del usuario en la app
@@ -65,7 +63,6 @@ export const UserContextProvider: React.FC = ({ children }) => {
   // Si no lo encuentra, desactiva el estado de cargando
   useEffect(() => {
     const localToken = localStorage.getItem("token");
-    console.log(localToken);
     if (localToken) {
       dispatch({ type: SAVE_TOKEN, payload: localToken });
     } else {
@@ -86,7 +83,6 @@ export const UserContextProvider: React.FC = ({ children }) => {
       axios
         .get(userDataUri, { headers: { Authorization: `Bearer ${token}` } })
         .then((res: any) => {
-          console.log(res);
           dispatch({ type: SAVE_USER, payload: res.data });
         })
         .catch((err) => console.log(err))

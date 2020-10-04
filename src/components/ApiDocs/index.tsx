@@ -33,12 +33,14 @@ const ApiDocs: React.FC = () => {
       <Divider />
       <Heading as="h2" size="md">
         Acceda a datos metereológicos simulados, de cualquier ciudad del mundo.
+      </Heading>
+      <Heading as="h3" size="md">
         Esta api es un clon de openweather que usa una base de datos de las
         ciudades del mundo con sus coordenadas, pero devuelve datos climáticos
         azarosos.
       </Heading>
       <Divider />
-      <Heading as="h1" size="xl">
+      <Heading as="h4" size="xl">
         Obtener datos metereológicos de una ciudad
       </Heading>
       <Divider opacity={0} />

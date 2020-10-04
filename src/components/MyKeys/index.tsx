@@ -33,7 +33,7 @@ const ApiDocs: React.FC = () => {
     clipboard.copy(data);
     toast({
       title: "Llave copiada al portapapeles!",
-      description: "Hacé una app genial.",
+      description: "A programar se ha dicho.",
       status: "success",
       duration: 9000,
       isClosable: true,
