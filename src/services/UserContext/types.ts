@@ -14,7 +14,7 @@ export interface IUserStoreState {
 export type UserReducerAction =
   | { type: "LOADING"; payload: boolean }
   | { type: "SAVE_TOKEN"; payload: string }
-  | { type: "LOG_OUT"; payload: undefined }
+  | { type: "LOG_OUT"; payload: null }
   | { type: "SAVE_USER"; payload: UserData };
 
 export interface IUserContext {

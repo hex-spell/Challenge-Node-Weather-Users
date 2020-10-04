@@ -95,6 +95,7 @@ export const UserContextProvider: React.FC = ({ children }) => {
       dispatch({ type: LOADING, payload: false });
     }
   }, [token, dispatch]);
+
   const userContextValue = useMemo(() => {
     return { store, dispatch };
   }, [store, dispatch]);

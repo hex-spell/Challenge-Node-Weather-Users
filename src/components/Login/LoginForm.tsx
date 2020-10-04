@@ -12,6 +12,7 @@ import {
   FormErrorMessage,
   Spinner,
 } from "@chakra-ui/core";
+import { Link } from "react-router-dom";
 import { UserContext, SAVE_TOKEN } from "../../services/UserContext";
 
 // Enlace del server backend, guardado en las variables de entorno.
@@ -29,7 +30,6 @@ const LoginForm: React.FC = () => {
 
   // Peticion al server, guarda token en UserContext, para ser manejado por LoginWrapper
   const onSubmit = handleSubmit(({ email, password }) => {
-    console.log(loginUri);
     setFormLoadingState(true);
     axios
       .request({
@@ -44,6 +44,7 @@ const LoginForm: React.FC = () => {
         setError("email", {
           message: "El email o la contraseña son invalidos",
         });
+        // eslint-disable-next-line no-console
         console.log(err);
       })
       .finally(() => setFormLoadingState(false));
@@ -51,7 +52,7 @@ const LoginForm: React.FC = () => {
   return (
     <Box>
       <Box textAlign="center">
-        <Heading as="h3">ClimArg</Heading>
+        <Heading as="h3">Iniciar Sesión</Heading>
       </Box>
       <Divider />
       <form onSubmit={onSubmit}>
@@ -67,7 +68,7 @@ const LoginForm: React.FC = () => {
               required: "Este campo es requerido.",
             })}
           />
-          <FormLabel htmlFor="password">Password</FormLabel>
+          <FormLabel htmlFor="password">Contraseña</FormLabel>
           <Input
             type="password"
             name="password"
@@ -88,9 +89,11 @@ const LoginForm: React.FC = () => {
               isLoading={formState.isSubmitting}
               type="submit"
             >
-              Submit
+              {isFormLoading ? <Spinner size="md" /> : "Enviar"}
             </Button>
-            {isFormLoading && <Spinner size="md" />}
+            <Button variant="link" variantColor="teal">
+              <Link to="/register">Registrarse</Link>
+            </Button>
           </Box>
         </FormControl>
       </form>
