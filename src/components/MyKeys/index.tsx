@@ -40,7 +40,7 @@ const ApiDocs: React.FC = () => {
     });
   };
   return (
-    <Container p="20px" bg="white" rounded="md" mt="5px">
+    <Container p="20px" bg="white" rounded="md" my="5px">
       <Heading as="h1" size="xl">
         Mis Llaves
       </Heading>
