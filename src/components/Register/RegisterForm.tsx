@@ -37,7 +37,7 @@ const RegisterForm: React.FC = () => {
 
   const [isFormLoading, setFormLoadingState] = useState(false);
 
-  // Peticion al server, guarda token en UserContext, para ser manejado por LoginWrapper
+  // Peticion al server, si no hay error redirecciona a la pagina login (/keys)
   const onSubmit = handleSubmit(
     ({ email, emailconfirm, passwordconfirm, password }) => {
       clearErrors();
