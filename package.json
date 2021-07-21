@@ -2,7 +2,6 @@
   "name": "challenge-users",
   "version": "0.1.0",
   "private": true,
-  "homepage": ".",
   "dependencies": {
     "@chakra-ui/core": "^0.8.0",
     "@emotion/core": "^10.0.35",
